@@ -659,7 +659,7 @@ h1 span {
   box-shadow: 0 0 10px rgba(0, 81, 255, 0.5);
 }
 
-/* ========== RESPONSIVE UPDATES ========== */
+/* ========== RESPONSIVE UPDATES ========== FOR ALL DEVICES*/
 @media (max-width: 1024px) {
   html {
     font-size: 55%;
