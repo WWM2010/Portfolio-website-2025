@@ -1,16 +1,10 @@
 const circle = document.querySelector(".circle");
-
-// Cache computed dimensions to avoid layout thrashing
 let circleWidth = circle.offsetWidth;
 let circleHeight = circle.offsetHeight;
-
-// Update cache on window resize
 window.addEventListener("resize", () => {
   circleWidth = circle.offsetWidth;
   circleHeight = circle.offsetHeight;
 });
-
-// Use requestAnimationFrame for smooth 60fps tracking
 let mouseX = 0;
 let mouseY = 0;
 
@@ -22,15 +16,10 @@ window.addEventListener("mousemove", (e) => {
 function animate() {
   const offsetX = circleWidth / 2;
   const offsetY = circleHeight / 2;
-  
-  // Smooth easing: interpolate toward target position instead of snapping
   const currentLeft = parseFloat(circle.style.left) || 0;
   const currentTop = parseFloat(circle.style.top) || 0;
-  
   const targetLeft = mouseX - offsetX;
   const targetTop = mouseY - offsetY;
-  
-  // Easing factor (0-1); higher = slower follow
   const easeAmount = 0.12;
   
   const newLeft = currentLeft + (targetLeft - currentLeft) * easeAmount;
@@ -44,7 +33,7 @@ function animate() {
 
 animate();
 
-// Counting animation for stats
+// Counting animation for stats(LOOK AT THE ABOUT ME SECTION)
 function startCountingAnimation() {
   const statNumbers = document.querySelectorAll('.stat-number');
   
@@ -85,9 +74,10 @@ function startCountingAnimation() {
   statNumbers.forEach(number => observer.observe(number));
 }
 
-// Start counting when page loads
+// Start counting when page loads(IMPORTANT!!)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', startCountingAnimation);
 } else {
   startCountingAnimation();
+
 }
