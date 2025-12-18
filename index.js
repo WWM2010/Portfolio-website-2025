@@ -48,7 +48,7 @@ function startCountingAnimation() {
         const target = parseInt(entry.target.dataset.target);
         let current = 0;
         const increment = target / 50;
-        const duration = 2000;
+        const duration = 5000;
         const startTime = Date.now();
 
         const count = () => {
@@ -81,3 +81,4 @@ if (document.readyState === 'loading') {
   startCountingAnimation();
 
 }
+
