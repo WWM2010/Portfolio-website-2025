@@ -11,9 +11,115 @@
 }
 
 :root {
-  --bg-color: #081b29;
-  --text-color: white;
-  --main-color: #0051ff;
+  /* Default to Sophisticated Engineer palette */
+  --bg-color: #1C1C1C;        /* Soft Black */
+  --bg-secondary: #262626;    /* Slightly lighter block bg */
+  --text-color: #F4F4F4;      /* Off-White */
+  --main-color: #BFA181;      /* Muted Gold */
+  --highlight-color: #D4C5B0; /* Warm Beige */
+}
+
+/* Earthy Tech */
+html[data-theme="earthy"] {
+  --bg-color: #121212;          /* Near Black */
+  --bg-secondary: #252523;      /* Deep Gray-Brown */
+  --text-color: #FFFFFF;        /* Pure White */
+  --main-color: #A39274;        /* Golden Wheat/Tan */
+  --highlight-color: #A39274;   /* Key highlight */
+}
+
+/* Walnut Retro */
+html[data-theme="walnut"] {
+  --bg-color: #000000;          /* True Black */
+  --bg-secondary: #0A0A0A;      /* Deep near-black */
+  --text-color: #FFFFFF;        /* Bold White */
+  --main-color: #C9AF98;        /* Comfortably Tan */
+  --highlight-color: #C9AF98;   /* Same as interactive */
+}
+
+/* Sophisticated Engineer (explicit) */
+html[data-theme="sophisticated"] {
+  --bg-color: #1C1C1C;
+  --bg-secondary: #262626;
+  --text-color: #F4F4F4;
+  --main-color: #BFA181;
+  --highlight-color: #D4C5B0;
+}
+
+/* Theme switcher UI */
+.theme-switcher {
+  position: relative;
+  margin-left: 1rem;
+}
+.theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
+  background: transparent;
+  color: var(--main-color);
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+.theme-button:hover {
+  background: var(--main-color);
+  color: var(--bg-color);
+  box-shadow: 0 0 12px var(--main-color);
+}
+.theme-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.8rem);
+  background: var(--bg-secondary);
+  border: 1px solid var(--main-color);
+  border-radius: 0.6rem;
+  padding: 0.6rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 22rem;
+  z-index: 10;
+}
+.theme-menu.open {
+  display: flex;
+}
+.theme-option {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid transparent;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-radius: 0.4rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.theme-option:hover {
+  border-color: var(--main-color);
+  color: var(--main-color);
+}
+
+/* Accessibility and device compatibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .text-animation span::before,
+  .text-animation span::after {
+    animation: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .circle { display: none !important; }
+  .theme-button { width: 4.2rem; height: 4.2rem; }
+  .navbar a { padding: 1rem 0; }
 }
 
 html {
@@ -33,7 +139,7 @@ header {
   left: 0;
   width: 100%;
   padding: 4rem 12% 4rem;
-  background: #081b29;
+  background: var(--bg-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -202,8 +308,8 @@ h1 span {
 .social-section {
   margin: 5rem 0;
   padding: 3rem 0;
-  border-top: 2px solid rgba(0, 81, 255, 0.2);
-  border-bottom: 2px solid rgba(0, 81, 255, 0.2);
+  border-top: 2px solid rgba(191, 161, 129, 0.25);
+  border-bottom: 2px solid rgba(191, 161, 129, 0.25);
 }
 
 .social-label {
@@ -320,7 +426,7 @@ h1 span {
 
 .Education {
   padding: 100px 15px;
-  background: #081b29;
+  background: var(--bg-color);
 }
 
 .Education h2 {
@@ -366,7 +472,7 @@ h1 span {
   height: 21px;
   width: 21px;
   background-color: var(--main-color);
-  box-shadow: 0 0 25px var(--main-color), 0 0 50px var(--main-color);
+  box-shadow: 0 0 25px rgba(191, 161, 129, 0.9), 0 0 50px rgba(191, 161, 129, 0.6);
   position: absolute;
   left: calc(50% - 8px);
   border-radius: 50%;
@@ -385,14 +491,14 @@ h1 span {
   border: 3px solid var(--main-color);
   padding: 30px 50px;
   border-radius: 4rem;
-  box-shadow: 0 0 15px var(--main-color);
+  box-shadow: 0 0 15px rgba(191, 161, 129, 0.6);
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
 
 .timeline-content:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px var(--main-color);
+  box-shadow: 0 0 25px rgba(191, 161, 129, 0.9);
 }
 
 .timeline-content h3 {
@@ -443,11 +549,7 @@ h1 span {
   min-width: 180px;
   padding: 3rem 2rem;
   border-left: 4px solid var(--main-color);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 81, 255, 0.15),
-    rgba(0, 81, 255, 0.05)
-  );
+  background: var(--bg-secondary);
   border-radius: 0.8rem;
   text-align: center;
   transition: all 0.3s ease;
@@ -455,9 +557,9 @@ h1 span {
 }
 
 .stat-item:hover {
-  background: rgba(0, 81, 255, 0.2);
+  background: rgba(191, 161, 129, 0.22);
   transform: translateY(-8px);
-  box-shadow: 0 10px 30px rgba(0, 81, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(191, 161, 129, 0.22);
 }
 
 .stat-number {
@@ -495,17 +597,13 @@ h1 span {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1.8rem;
 }
 
 .skill-tag {
   padding: 1.2rem 2rem;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 81, 255, 0.2),
-    rgba(0, 81, 255, 0.08)
-  );
+  background: var(--bg-secondary);
   border: 2.5px solid var(--main-color);
   border-radius: 2.5rem;
   font-size: 1.5rem;
@@ -533,7 +631,7 @@ h1 span {
 .skill-tag:hover {
   color: var(--bg-color);
   transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 12px 35px rgba(0, 81, 255, 0.25);
+  box-shadow: 0 12px 35px rgba(191, 161, 129, 0.3);
 }
 
 .skill-tag:hover::before {
@@ -547,7 +645,7 @@ h1 span {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 3rem;
   max-width: 1300px;
   margin: 0 auto;
@@ -556,10 +654,10 @@ h1 span {
 .project-card {
   background: linear-gradient(
     135deg,
-    rgba(0, 81, 255, 0.1),
-    rgba(0, 81, 255, 0.05)
+    rgba(191, 161, 129, 0.12),
+    rgba(191, 161, 129, 0.06)
   );
-  border: 2px solid rgba(0, 81, 255, 0.3);
+  border: 2px solid rgba(191, 161, 129, 0.35);
   padding: 2.5rem;
   border-radius: 1rem;
   transition: all 0.4s ease;
@@ -569,12 +667,12 @@ h1 span {
 
 .project-card:hover {
   border-color: var(--main-color);
-  box-shadow: 0 0 30px rgba(0, 81, 255, 0.2);
+  box-shadow: 0 0 30px rgba(191, 161, 129, 0.25);
   transform: translateY(-8px);
   background: linear-gradient(
     135deg,
-    rgba(0, 81, 255, 0.2),
-    rgba(0, 81, 255, 0.1)
+    rgba(191, 161, 129, 0.22),
+    rgba(191, 161, 129, 0.12)
   );
 }
 
@@ -593,7 +691,7 @@ h1 span {
 
 .project-date {
   font-size: 1.2rem;
-  color: var(--main-color);
+  color: var(--highlight-color);
   font-weight: 600;
 }
 
@@ -615,7 +713,7 @@ h1 span {
 .tech-badge {
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
-  background: rgba(0, 81, 255, 0.2);
+  background: rgba(191, 161, 129, 0.2);
   border: 1px solid var(--main-color);
   border-radius: 1.5rem;
   color: var(--main-color);
@@ -624,7 +722,7 @@ h1 span {
 
 .project-link {
   font-size: 1.3rem;
-  color: var(--main-color);
+  color: var(--highlight-color);
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -632,7 +730,7 @@ h1 span {
 }
 
 .project-link:hover {
-  color: white;
+  color: var(--text-color);
   transform: translateX(5px);
 }
 
@@ -656,10 +754,10 @@ h1 span {
   pointer-events: none;
   z-index: 999;
   transition: left 0.05s linear, top 0.05s linear;
-  box-shadow: 0 0 10px rgba(0, 81, 255, 0.5);
+  box-shadow: 0 0 10px rgba(191, 161, 129, 0.5);
 }
 
-/* ========== RESPONSIVE UPDATES ========== FOR ALL DEVICES*/
+/* ========== RESPONSIVE UPDATES ========== */
 @media (max-width: 1024px) {
   html {
     font-size: 55%;
