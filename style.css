@@ -201,6 +201,8 @@ header {
 section {
   min-height: 100vh;
   padding: 30rem 12% 3rem;
+  /* Prevent fixed header from covering anchors */
+  scroll-margin-top: 12rem;
 }
 
 h1 span {
@@ -727,6 +729,7 @@ h1 span {
 
   section {
     padding: 20rem 8% 3rem;
+    scroll-margin-top: 10rem;
   }
 
   .Home-content h1 {
@@ -813,6 +816,7 @@ h1 span {
   section {
     min-height: auto;
     padding: 15rem 5% 2rem;
+    scroll-margin-top: 9rem;
   }
 
   .Home-content h1 {
@@ -983,6 +987,7 @@ h1 span {
 
   section {
     padding: 12rem 3% 2rem;
+    scroll-margin-top: 8rem;
   }
 
   .Home-content h1 {
