@@ -178,49 +178,71 @@ function startCountingAnimation() {
 
 // Start counting when page loads
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', startCountingAnimation);
+  document.addEventListener('DOMContentLoaded', () => {
+    startCountingAnimation();
+    initTypewriter();
+  });
 } else {
   startCountingAnimation();
+  initTypewriter();
 }
-// Text rotator / typing effect for .text-animation span
-(function initTextRotator() {
-  const el = document.querySelector('.text-animation span');
-  if (!el) return;
 
-  const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (mqReduce.matches) {
-    el.textContent = 'Developer.'; // static fallback
+// Typewriter implementation for cross-browser support
+function initTypewriter() {
+  const target = document.querySelector('.type-target');
+  if (!target) return;
+
+  let words = [];
+  try {
+    const data = target.getAttribute('data-words');
+    if (data) words = JSON.parse(data);
+  } catch (e) {}
+  if (!Array.isArray(words) || words.length === 0) {
+    words = ['Web Developer.', 'Student.', 'Competitive Programmer.'];
+  }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    target.textContent = words[0];
+    target.style.borderRightColor = 'transparent';
     return;
   }
 
-  const words = ['Developer.', 'Student.', 'Competitive Programmer.'];
   let wordIndex = 0;
   let charIndex = 0;
   let deleting = false;
-  const typingSpeed = 80; // ms per character
-  const pauseAfterWord = 1200; // ms to wait after a word finishes
+  const typeDelay = 90;
+  const deleteDelay = 60;
+  const holdDelay = 1100; // pause at full word
 
-  function tick() {
+  const tick = () => {
     const current = words[wordIndex];
+
     if (!deleting) {
-      charIndex++;
-      el.textContent = current.slice(0, charIndex);
+      // typing
+      charIndex = Math.min(charIndex + 1, current.length);
+      target.textContent = current.slice(0, charIndex);
       if (charIndex === current.length) {
-        // finished typing
         deleting = true;
-        setTimeout(tick, pauseAfterWord);
+        setTimeout(tick, holdDelay);
         return;
       }
+      setTimeout(tick, typeDelay);
     } else {
-      charIndex--;
-      el.textContent = current.slice(0, charIndex);
+      // deleting
+      charIndex = Math.max(charIndex - 1, 0);
+      target.textContent = current.slice(0, charIndex);
       if (charIndex === 0) {
         deleting = false;
         wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(tick, 300);
+        return;
       }
+      setTimeout(tick, deleteDelay);
     }
-    setTimeout(tick, deleting ? typingSpeed / 2 : typingSpeed);
-  }
+  };
 
+  // Start
+  target.textContent = '';
   tick();
-})();
+}
