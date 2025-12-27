@@ -176,6 +176,63 @@ function startCountingAnimation() {
   statNumbers.forEach(number => observer.observe(number));
 }
 
+// Navbar active state on scroll and click
+(function initActiveNav() {
+  const nav = document.querySelector('.navbar');
+  if (!nav) return;
+  const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+  const sections = links
+    .map(a => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      return el ? { id, el, link: a } : null;
+    })
+    .filter(Boolean);
+
+  // Helper to set active
+  const setActive = (id) => {
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${id}`));
+  };
+
+  // Remove any hard-coded active at start; will be set by observer
+  links.forEach(l => l.classList.remove('active'));
+
+  // IntersectionObserver to track the section in view
+  const io = new IntersectionObserver((entries) => {
+    // Pick the most visible entry
+    let best = null;
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const ratio = e.intersectionRatio;
+        if (!best || ratio > best.ratio) best = { id: e.target.id, ratio };
+      }
+    });
+    if (best) setActive(best.id);
+  }, {
+    root: null,
+    threshold: [0.4, 0.6, 0.8],
+    rootMargin: '0px 0px -30% 0px'
+  });
+
+  sections.forEach(s => io.observe(s.el));
+
+  // Click handling for smooth behavior and closing theme menu
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      const id = href.slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      // Let default smooth scroll happen, but also set active immediately
+      setActive(id);
+      // Close theme menu if open
+      const menu = document.querySelector('.theme-menu');
+      if (menu) menu.classList.remove('open');
+    });
+  });
+})();
+
 // Start counting when page loads
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
