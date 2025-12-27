@@ -182,3 +182,45 @@ if (document.readyState === 'loading') {
 } else {
   startCountingAnimation();
 }
+// Text rotator / typing effect for .text-animation span
+(function initTextRotator() {
+  const el = document.querySelector('.text-animation span');
+  if (!el) return;
+
+  const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mqReduce.matches) {
+    el.textContent = 'Developer.'; // static fallback
+    return;
+  }
+
+  const words = ['Developer.', 'Student.', 'Competitive Programmer.'];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+  const typingSpeed = 80; // ms per character
+  const pauseAfterWord = 1200; // ms to wait after a word finishes
+
+  function tick() {
+    const current = words[wordIndex];
+    if (!deleting) {
+      charIndex++;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex === current.length) {
+        // finished typing
+        deleting = true;
+        setTimeout(tick, pauseAfterWord);
+        return;
+      }
+    } else {
+      charIndex--;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex === 0) {
+        deleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+    }
+    setTimeout(tick, deleting ? typingSpeed / 2 : typingSpeed);
+  }
+
+  tick();
+})();
