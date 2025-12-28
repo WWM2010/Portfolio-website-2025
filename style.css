@@ -239,27 +239,111 @@ h1 span {
   min-width: 280px;
 }
 
-/* Typewriter target and caret */
+/* Typewriter animation */
 .text-animation .type-target {
   position: relative;
   color: var(--main-color);
-  border-right: 2px solid var(--main-color);
-  padding-right: 2px;
   white-space: nowrap;
 }
 
-@keyframes caret-blink {
-  0%, 49% { border-color: var(--main-color); }
-  50%, 100% { border-color: transparent; }
+.text-animation .word {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  animation-duration: 12s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
 }
 
-.text-animation .type-target {
+.text-animation .word:nth-child(1) {
+  animation-name: type1;
+}
+
+.text-animation .word:nth-child(2) {
+  animation-name: type2;
+  animation-delay: 4s;
+}
+
+.text-animation .word:nth-child(3) {
+  animation-name: type3;
+  animation-delay: 8s;
+}
+
+.text-animation .word::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--main-color);
   animation: caret-blink 1s step-end infinite;
+}
+
+@-webkit-keyframes type1 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 15ch; }
+  66.66%, 100% { width: 0; }
+}
+@keyframes type1 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 15ch; }
+  66.66%, 100% { width: 0; }
+}
+
+@-webkit-keyframes type2 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 9ch; }
+  66.66%, 100% { width: 0; }
+}
+@keyframes type2 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 9ch; }
+  66.66%, 100% { width: 0; }
+}
+
+@-webkit-keyframes type3 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 24ch; }
+  66.66%, 100% { width: 0; }
+}
+@keyframes type3 {
+  0%, 33.33% { width: 0; }
+  33.33%, 66.66% { width: 24ch; }
+  66.66%, 100% { width: 0; }
+}
+
+@keyframes caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .text-animation .word {
+    animation: none;
+  }
+  .text-animation .word::after {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Ensure mobile layout doesn't clip the caret */
 .text-animation { display: inline-block; }
-/* social icons my fr, dont forget to add other one */
+
+/* Mobile typewriter fallback */
+@media (max-width: 768px) {
+  .text-animation .word {
+    position: static;
+    animation: none;
+    width: auto;
+    overflow: visible;
+  }
+  .text-animation .word:nth-child(1) { display: block; }
+  .text-animation .word:nth-child(2) { display: none; }
+  .text-animation .word:nth-child(3) { display: none; }
+  .text-animation .word::after { display: none; }
+}
+/* social icons my friend, dont forget to add other one gmail bro hh */
 .social-section {
   margin: 5rem 0;
   padding: 3rem 0;
@@ -713,6 +797,81 @@ h1 span {
 }
 
 /* ========== RESPONSIVE UPDATES ========== */
+
+/* Tablet and small desktop */
+@media (max-width: 1200px) {
+  html {
+    font-size: 58%;
+  }
+
+  header {
+    padding: 3.5rem 10% 3.5rem;
+  }
+
+  .navbar a {
+    font-size: 2.2rem;
+    margin-left: 1.5rem;
+  }
+
+  section {
+    padding: 25rem 10% 3rem;
+    scroll-margin-top: 11rem;
+  }
+
+  .Home-content h1 {
+    font-size: 6.5rem;
+  }
+
+  .Home-content h3 {
+    font-size: 3.5rem;
+  }
+
+  .Home-content p {
+    font-size: 2.2rem;
+  }
+
+  .social-icons {
+    gap: 2rem;
+  }
+
+  .social-icons a {
+    width: 5rem;
+    height: 5rem;
+    font-size: 2.5rem;
+  }
+
+  .btn-group {
+    gap: 2.5rem;
+  }
+
+  .btn {
+    padding: 1.3rem 2.8rem;
+    font-size: 1.5rem;
+  }
+
+  .about-content {
+    gap: 3.5rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .timeline-content {
+    padding: 25px 40px;
+  }
+
+  .circle {
+    width: 22px;
+    height: 22px;
+  }
+}
+
 @media (max-width: 1024px) {
   html {
     font-size: 55%;
@@ -966,7 +1125,7 @@ h1 span {
   }
 }
 
-/* ============ SMALL PHONE (360px and below) ============ */
+/* ============ SMALL PHONE (480px and below) (nokia) hhhh (all these compatibility is from templites builder!!!)  ============ */
 @media (max-width: 480px) {
   html {
     font-size: 45%;
@@ -1044,5 +1203,187 @@ h1 span {
 
   .contact-intro {
     font-size: 1.4rem;
+  }
+}
+
+/* ============ AESTHETIC ENHANCEMENTS (gemini advice )============ */
+
+/* Smooth scrolling for better UX (inspired from github tutorals websites ) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus states for accessibility */
+.navbar a:focus,
+.btn:focus,
+.social-icons a:focus,
+.skill-tag:focus,
+.project-link:focus {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+/* improve hover effects ( look at the home section)*/
+.social-icons a:hover {
+  -webkit-transform: scale(1.3) translateY(-5px) rotate(5deg);
+  -moz-transform: scale(1.3) translateY(-5px) rotate(5deg);
+  transform: scale(1.3) translateY(-5px) rotate(5deg);
+  box-shadow: 0 0 25px var(--main-color);
+}
+
+.btn:hover {
+  -webkit-transform: scale(1.05) translateY(-2px);
+  -moz-transform: scale(1.05) translateY(-2px);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(191, 161, 129, 0.4);
+}
+
+.skill-tag:hover {
+  -webkit-transform: translateY(-6px) scale(1.05) rotate(-2deg);
+  -moz-transform: translateY(-6px) scale(1.05) rotate(-2deg);
+  transform: translateY(-6px) scale(1.05) rotate(-2deg);
+  box-shadow: 0 12px 35px rgba(191, 161, 129, 0.3);
+}
+
+.project-card:hover {
+  -webkit-transform: translateY(-8px) rotate(1deg);
+  -moz-transform: translateY(-8px) rotate(1deg);
+  transform: translateY(-8px) rotate(1deg);
+  box-shadow: 0 15px 40px rgba(191, 161, 129, 0.25);
+}
+
+.stat-item:hover {
+  -webkit-transform: translateY(-8px) scale(1.02);
+  -moz-transform: translateY(-8px) scale(1.02);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(191, 161, 129, 0.22);
+}
+
+/* Subtle animations for loading (inspired from Dortmund club website hh football is the best) */
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.Home-content,
+.about-content,
+.projects-grid,
+.skills-grid {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Better spacing and typography (gemini advices) */
+.Home-content {
+  margin-bottom: 4rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-content {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.projects-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Enhanced visual hierarchy (look at the tutrial in reddit) */
+.heading,
+.heading-About-me {
+  position: relative;
+  margin: 5rem 0;
+}
+
+.heading::after,
+.heading-About-me::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--main-color), var(--highlight-color));
+  border-radius: 2px;
+}
+
+/* Improved button aesthetics (from reddit) */
+.btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* card desing*/
+.project-card,
+.stat-item {
+  -webkit-transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 1.5rem;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(191, 161, 129, 0.08);
+  border: 1px solid rgba(191, 161, 129, 0.2);
+}
+
+.timeline-content {
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border-radius: 3rem;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+/*for mobile also*/
+@media (hover: none) and (pointer: coarse) {
+  .navbar a,
+  .btn,
+  .social-icons a,
+  .skill-tag,
+  .project-link {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
