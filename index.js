@@ -233,91 +233,11 @@ function startCountingAnimation() {
   });
 })();
 
-// Start counting when page loads
+// Start counting when page loads (typewriter removed — CSS handles the words now)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     startCountingAnimation();
-    initTypewriter();
   });
 } else {
   startCountingAnimation();
-  initTypewriter();
 }
-
-// Typewriter implementation for cross-browser support
-function initTypewriter() {
-  const target = document.querySelector('.type-target');
-  if (!target) return;
-
-  let words = [];
-  try {
-    const data = target.getAttribute('data-words');
-    if (data) words = JSON.parse(data);
-  } catch (e) {}
-  if (!Array.isArray(words) || words.length === 0) {
-    words = ['Web Developer.', 'Student.', 'Competitive Programmer.'];
-  }
-
-  // Respect user preference by default, but allow a localStorage override
-  // To force animations even when the OS has "reduce motion" enabled, run in console:
-  // localStorage.setItem('reduced-motion-override','allow'); location.reload();
-  const reduce = mqReduce.matches;
-  let allowAnimations = false;
-  try {
-    const override = localStorage.getItem('reduced-motion-override');
-    if (override === 'allow') allowAnimations = true;
-  } catch (e) {}
-
-  if (reduce && !allowAnimations) {
-    // If user asked for reduced motion (and didn't override), show static text
-    target.textContent = words[0];
-    target.style.borderRightColor = 'transparent';
-    return;
-  }
-
-  // If we get here, animations are allowed
-  const reducePref = mqReduce.matches;
-  if (reducePref) {
-    // If reduce was true but user forced animations, keep caret visible
-    // (we've already handled the fully reduced case above)
-  }
-
-  let wordIndex = 0;
-  let charIndex = 0;
-  let deleting = false;
-  const typeDelay = 90;
-  const deleteDelay = 60;
-  const holdDelay = 1100; // pause at full word
-
-  const tick = () => {
-    const current = words[wordIndex];
-
-    if (!deleting) {
-      // typing
-      charIndex = Math.min(charIndex + 1, current.length);
-      target.textContent = current.slice(0, charIndex);
-      if (charIndex === current.length) {
-        deleting = true;
-        setTimeout(tick, holdDelay);
-        return;
-      }
-      setTimeout(tick, typeDelay);
-    } else {
-      // deleting
-      charIndex = Math.max(charIndex - 1, 0);
-      target.textContent = current.slice(0, charIndex);
-      if (charIndex === 0) {
-        deleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        setTimeout(tick, 300);
-        return;
-      }
-      setTimeout(tick, deleteDelay);
-    }
-  };
-
-  // Start
-  target.textContent = '';
-  tick();
-}
-
