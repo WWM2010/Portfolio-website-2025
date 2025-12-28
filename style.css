@@ -110,8 +110,9 @@ html[data-theme="sophisticated"] {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .text-animation span::before,
-  .text-animation span::after {
+  /* Disable word/caret animations when user prefers reduced motion */
+  .text-animation .type-words::after,
+  .text-animation .type-words .word {
     animation: none !important;
   }
 }
@@ -239,22 +240,58 @@ h1 span {
   min-width: 280px;
 }
 
-/* Typewriter target and caret */
-.text-animation .type-target {
+/* Reworked word animation (CSS-only) */
+.text-animation .type-words {
   position: relative;
+  display: inline-block;
+  min-width: 220px;
+  vertical-align: bottom;
   color: var(--main-color);
-  border-right: 2px solid var(--main-color);
-  padding-right: 2px;
+}
+
+/* Each word sits on top of the other and is animated in sequence */
+.text-animation .type-words .word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: wordCycle 9s infinite;
   white-space: nowrap;
+  color: var(--main-color);
+  font-weight: 600;
 }
 
-@keyframes caret-blink {
-  0%, 49% { border-color: var(--main-color); }
-  50%, 100% { border-color: transparent; }
-}
+/* Stagger delays for three words (3s each chunk) */
+.text-animation .type-words .word:nth-child(1) { animation-delay: 0s; }
+.text-animation .type-words .word:nth-child(2) { animation-delay: 3s; }
+.text-animation .type-words .word:nth-child(3) { animation-delay: 6s; }
 
-.text-animation .type-target {
+/* Caret handled in CSS so we can pause with prefers-reduced-motion */
+.text-animation .type-words::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--main-color);
+  margin-left: 8px;
   animation: caret-blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+/* Keyframes for the word cycling */
+@keyframes wordCycle {
+  0%   { opacity: 0; transform: translateY(10px); }
+  5%   { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 1; transform: translateY(0); }
+  35%  { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Typewriter caret blink keyframes (used by caret pseudo-element) */
+@keyframes caret-blink {
+  0%, 49% { background: var(--main-color); }
+  50%, 100% { background: transparent; }
 }
 
 /* Ensure mobile layout doesn't clip the caret */
