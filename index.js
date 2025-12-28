@@ -258,11 +258,28 @@ function initTypewriter() {
     words = ['Web Developer.', 'Student.', 'Competitive Programmer.'];
   }
 
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) {
+  // Respect user preference by default, but allow a localStorage override
+  // To force animations even when the OS has "reduce motion" enabled, run in console:
+  // localStorage.setItem('reduced-motion-override','allow'); location.reload();
+  const reduce = mqReduce.matches;
+  let allowAnimations = false;
+  try {
+    const override = localStorage.getItem('reduced-motion-override');
+    if (override === 'allow') allowAnimations = true;
+  } catch (e) {}
+
+  if (reduce && !allowAnimations) {
+    // If user asked for reduced motion (and didn't override), show static text
     target.textContent = words[0];
     target.style.borderRightColor = 'transparent';
     return;
+  }
+
+  // If we get here, animations are allowed
+  const reducePref = mqReduce.matches;
+  if (reducePref) {
+    // If reduce was true but user forced animations, keep caret visible
+    // (we've already handled the fully reduced case above)
   }
 
   let wordIndex = 0;
@@ -303,3 +320,4 @@ function initTypewriter() {
   target.textContent = '';
   tick();
 }
+
