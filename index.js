@@ -139,6 +139,8 @@ if (mqHover.addEventListener) {
   });
 })();
 
+
+
 // Counting animation for stats
 function startCountingAnimation() {
   const statNumbers = document.querySelectorAll('.stat-number');
@@ -154,7 +156,7 @@ function startCountingAnimation() {
         const target = parseInt(entry.target.dataset.target);
         let current = 0;
         const increment = target / 50;
-        const duration = 2000;
+        const duration = 2500;
         const startTime = Date.now();
 
         const count = () => {
@@ -271,52 +273,116 @@ function initTypewriter() {
 
   let wordIndex = 0;
   let charIndex = 0;
-  let deleting = false;
+  let state = 'typing'; // 'typing', 'holding', 'deleting', 'pausing'
+  let lastUpdate = 0;
+  let caretVisible = true;
+  let lastBlink = 0;
   const typeDelay = 90;
   const deleteDelay = 60;
-  const holdDelay = 1100; // pause at full word
+  const holdDelay = 1100;
+  const pauseDelay = 300;
+  const blinkDelay = 500;
 
   // Add caret style
   target.style.borderRight = '2px solid var(--main-color)';
   target.style.paddingRight = '2px';
 
-  const tick = () => {
+  const animate = (timestamp) => {
+    if (lastUpdate === 0) lastUpdate = timestamp;
+
+    const delta = timestamp - lastUpdate;
+    const blinkDelta = timestamp - lastBlink;
+
+    // Handle caret blinking
+    if (blinkDelta >= blinkDelay) {
+      caretVisible = !caretVisible;
+      target.style.borderRightColor = caretVisible ? 'var(--main-color)' : 'transparent';
+      lastBlink = timestamp;
+    }
+
     const current = words[wordIndex];
 
-    if (!deleting) {
-      // typing
-      charIndex = Math.min(charIndex + 1, current.length);
-      target.textContent = current.slice(0, charIndex);
-      if (charIndex === current.length) {
-        deleting = true;
-        setTimeout(tick, holdDelay);
-        return;
+    if (state === 'typing') {
+      if (delta >= typeDelay) {
+        charIndex = Math.min(charIndex + 1, current.length);
+        target.textContent = current.slice(0, charIndex);
+        lastUpdate = timestamp;
+        if (charIndex === current.length) {
+          state = 'holding';
+          lastUpdate = timestamp;
+        }
       }
-      setTimeout(tick, typeDelay);
-    } else {
-      // deleting
-      charIndex = Math.max(charIndex - 1, 0);
-      target.textContent = current.slice(0, charIndex);
-      if (charIndex === 0) {
-        deleting = false;
+    } else if (state === 'holding') {
+      if (delta >= holdDelay) {
+        state = 'deleting';
+        lastUpdate = timestamp;
+      }
+    } else if (state === 'deleting') {
+      if (delta >= deleteDelay) {
+        charIndex = Math.max(charIndex - 1, 0);
+        target.textContent = current.slice(0, charIndex);
+        lastUpdate = timestamp;
+        if (charIndex === 0) {
+          state = 'pausing';
+          lastUpdate = timestamp;
+        }
+      }
+    } else if (state === 'pausing') {
+      if (delta >= pauseDelay) {
+        state = 'typing';
         wordIndex = (wordIndex + 1) % words.length;
-        setTimeout(tick, 300);
-        return;
+        lastUpdate = timestamp;
       }
-      setTimeout(tick, deleteDelay);
     }
-  };
 
-  // Caret blink animation
-  let caretVisible = true;
-  const blinkCaret = () => {
-    caretVisible = !caretVisible;
-    target.style.borderRightColor = caretVisible ? 'var(--main-color)' : 'transparent';
-    setTimeout(blinkCaret, 500);
+    requestAnimationFrame(animate);
   };
-  blinkCaret();
 
   // Start
   target.textContent = '';
-  tick();
+  requestAnimationFrame(animate);
+}
+
+// Copy code functionality for code showcase
+function copyCode() {
+  const codeElement = document.querySelector('.code-display code');
+  if (!codeElement) return;
+
+  const textToCopy = codeElement.textContent || codeElement.innerText;
+
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    if (btn) {
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.background = 'var(--highlight-color)';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = 'var(--main-color)';
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      const btn = document.querySelector('.copy-btn');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = 'var(--highlight-color)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--main-color)';
+        }, 2000);
+      }
+    } catch (fallbackErr) {
+      console.error('Fallback copy failed: ', fallbackErr);
+    }
+    document.body.removeChild(textArea);
+  });
 }
