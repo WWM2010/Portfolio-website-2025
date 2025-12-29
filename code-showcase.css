@@ -1,0 +1,128 @@
+/* ========== CODE SHOWCASE SECTION ========== */
+.code-showcase {
+  padding: 30rem 12% 3rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+.showcase-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.project-info {
+  background: var(--bg-secondary);
+  border: 2px solid var(--main-color);
+  border-radius: 1rem;
+  padding: 3rem;
+  position: sticky;
+  top: 15rem;
+}
+
+.project-info h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.project-info p {
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: var(--highlight-color);
+  margin-bottom: 2rem;
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.download-section {
+  background: var(--bg-secondary);
+  border: 2px solid var(--main-color);
+  border-radius: 1rem;
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(191, 161, 129, 0.25);
+}
+
+.download-btn {
+  background: var(--main-color);
+  color: var(--bg-color);
+  text-decoration: none;
+  padding: 1.5rem 3rem;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(191, 161, 129, 0.3);
+}
+
+.download-btn:hover {
+  background: var(--highlight-color);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px var(--main-color);
+}
+
+.download-btn i {
+  font-size: 1.8rem;
+}
+
+/* Responsive for code showcase */
+@media (max-width: 1024px) {
+  .showcase-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .project-info {
+    position: static;
+  }
+
+  .download-section {
+    padding: 2rem;
+  }
+
+  .download-btn {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .code-showcase {
+    padding: 15rem 5% 2rem;
+  }
+
+  .project-info {
+    padding: 2rem;
+  }
+
+  .project-info h3 {
+    font-size: 2rem;
+  }
+
+  .download-section {
+    padding: 1.5rem;
+  }
+
+  .download-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .download-btn i {
+    font-size: 1.5rem;
+  }
+}
