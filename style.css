@@ -244,104 +244,14 @@ h1 span {
   position: relative;
   color: var(--main-color);
   white-space: nowrap;
-}
-
-.text-animation .word {
-  position: absolute;
-  overflow: hidden;
-  white-space: nowrap;
-  animation-duration: 12s;
-  animation-iteration-count: infinite;
-  animation-timing-function: steps(1, end);
-}
-
-.text-animation .word:nth-child(1) {
-  animation-name: type1;
-}
-
-.text-animation .word:nth-child(2) {
-  animation-name: type2;
-  animation-delay: 4s;
-}
-
-.text-animation .word:nth-child(3) {
-  animation-name: type3;
-  animation-delay: 8s;
-}
-
-.text-animation .word::after {
-  content: "|";
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: var(--main-color);
-  animation: caret-blink 1s step-end infinite;
-}
-
-@-webkit-keyframes type1 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 15ch; }
-  66.66%, 100% { width: 0; }
-}
-@keyframes type1 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 15ch; }
-  66.66%, 100% { width: 0; }
-}
-
-@-webkit-keyframes type2 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 9ch; }
-  66.66%, 100% { width: 0; }
-}
-@keyframes type2 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 9ch; }
-  66.66%, 100% { width: 0; }
-}
-
-@-webkit-keyframes type3 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 24ch; }
-  66.66%, 100% { width: 0; }
-}
-@keyframes type3 {
-  0%, 33.33% { width: 0; }
-  33.33%, 66.66% { width: 24ch; }
-  66.66%, 100% { width: 0; }
-}
-
-@keyframes caret-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  display: inline-block;
 }
 
 /* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .text-animation .word {
-    animation: none;
+  .text-animation .type-target {
+    border-right: none;
   }
-  .text-animation .word::after {
-    animation: none;
-    opacity: 1;
-  }
-}
-
-/* Ensure mobile layout doesn't clip the caret */
-.text-animation { display: inline-block; }
-
-/* Mobile typewriter fallback */
-@media (max-width: 768px) {
-  .text-animation .word {
-    position: static;
-    animation: none;
-    width: auto;
-    overflow: visible;
-  }
-  .text-animation .word:nth-child(1) { display: block; }
-  .text-animation .word:nth-child(2) { display: none; }
-  .text-animation .word:nth-child(3) { display: none; }
-  .text-animation .word::after { display: none; }
 }
 /* social icons my friend, dont forget to add other one gmail bro hh */
 .social-section {
@@ -792,7 +702,7 @@ h1 span {
   border-radius: 50%;
   pointer-events: none;
   z-index: 999;
-  transition: left 0.05s linear, top 0.05s linear;
+  transition: transform 0.05s linear;
   box-shadow: 0 0 10px rgba(191, 161, 129, 0.5);
 }
 
