@@ -27,19 +27,24 @@ function animate() {
   const offsetX = circleWidth / 2;
   const offsetY = circleHeight / 2;
 
-  const currentLeft = parseFloat(circle.style.left) || 0;
-  const currentTop = parseFloat(circle.style.top) || 0;
-
-  const targetLeft = mouseX - offsetX;
-  const targetTop = mouseY - offsetY;
+  const targetX = mouseX - offsetX;
+  const targetY = mouseY - offsetY;
 
   const easeAmount = 0.12;
 
-  const newLeft = currentLeft + (targetLeft - currentLeft) * easeAmount;
-  const newTop = currentTop + (targetTop - currentTop) * easeAmount;
+  // Use transform for better performance
+  const currentTransform = circle.style.transform || 'translate(0px, 0px)';
+  const match = currentTransform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+  let currentX = 0, currentY = 0;
+  if (match) {
+    currentX = parseFloat(match[1]);
+    currentY = parseFloat(match[2]);
+  }
 
-  circle.style.left = newLeft + "px";
-  circle.style.top = newTop + "px";
+  const newX = currentX + (targetX - currentX) * easeAmount;
+  const newY = currentY + (targetY - currentY) * easeAmount;
+
+  circle.style.transform = `translate(${newX}px, ${newY}px)`;
 
   rafId = requestAnimationFrame(animate);
 }
@@ -59,8 +64,7 @@ function stopCursor() {
     rafId = null;
   }
   if (circle) {
-    circle.style.left = "";
-    circle.style.top = "";
+    circle.style.transform = "";
   }
 }
 
@@ -261,7 +265,7 @@ function initTypewriter() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) {
     target.textContent = words[0];
-    target.style.borderRightColor = 'transparent';
+    target.style.borderRight = 'none';
     return;
   }
 
@@ -271,6 +275,10 @@ function initTypewriter() {
   const typeDelay = 90;
   const deleteDelay = 60;
   const holdDelay = 1100; // pause at full word
+
+  // Add caret style
+  target.style.borderRight = '2px solid var(--main-color)';
+  target.style.paddingRight = '2px';
 
   const tick = () => {
     const current = words[wordIndex];
@@ -298,6 +306,15 @@ function initTypewriter() {
       setTimeout(tick, deleteDelay);
     }
   };
+
+  // Caret blink animation
+  let caretVisible = true;
+  const blinkCaret = () => {
+    caretVisible = !caretVisible;
+    target.style.borderRightColor = caretVisible ? 'var(--main-color)' : 'transparent';
+    setTimeout(blinkCaret, 500);
+  };
+  blinkCaret();
 
   // Start
   target.textContent = '';
