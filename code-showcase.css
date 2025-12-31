@@ -5,6 +5,42 @@
   min-height: 100vh;
 }
 
+.code-showcase .heading {
+  animation: fadeIn 1s ease-out 0.2s both;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .showcase-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -12,6 +48,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: start;
+  animation: fadeIn 1s ease-out;
 }
 
 .project-info {
@@ -21,6 +58,7 @@
   padding: 3rem;
   position: sticky;
   top: 15rem;
+  animation: slideInLeft 1s ease-out 0.5s both;
 }
 
 .project-info h3 {
@@ -52,6 +90,7 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 30px rgba(191, 161, 129, 0.25);
+  animation: slideInRight 1s ease-out 0.7s both;
 }
 
 .download-btn {
