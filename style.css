@@ -11,21 +11,21 @@
 }
 
 :root {
-  /* Default to Sophisticated Engineer palette */
-  --bg-color: #1C1C1C;        /* Soft Black */
-  --bg-secondary: #262626;    /* Slightly lighter block bg */
-  --text-color: #F4F4F4;      /* Off-White */
-  --main-color: #BFA181;      /* Muted Gold */
-  --highlight-color: #D4C5B0; /* Warm Beige */
+  /* Airy Minimalist Palette */
+  --bg-color: #FFFFFF;        /* Primary White */
+  --bg-secondary: #F4F7F6;    /* Soft Gray */
+  --text-color: #1A2B3C;      /* Deep Navy */
+  --main-color: #87CEEB;      /* Sky Blue */
+  --highlight-color: #87CEEB; /* Sky Blue */
 }
 
-/* Earthy Tech */
+/* Modern Gradient */
 html[data-theme="earthy"] {
-  --bg-color: #121212;          /* Near Black */
-  --bg-secondary: #252523;      /* Deep Gray-Brown */
-  --text-color: #FFFFFF;        /* Pure White */
-  --main-color: #A39274;        /* Golden Wheat/Tan */
-  --highlight-color: #A39274;   /* Key highlight */
+  --bg-color: #FBFFFF;          /* Cloud White */
+  --bg-secondary: #457B9D;      /* Slate Blue */
+  --text-color: #1A2B3C;        /* Deep Navy */
+  --main-color: #00B4D8;        /* Sky Blue */
+  --highlight-color: #FFD166;   /* Highlight Gold */
 }
 
 /* Walnut Retro */
@@ -37,13 +37,13 @@ html[data-theme="walnut"] {
   --highlight-color: #C9AF98;   /* Comfortably tan */
 }
 
-/* Sophisticated Engineer (explicit) */
+/* Airy Minimalist (explicit) */
 html[data-theme="sophisticated"] {
-  --bg-color: #1C1C1C;
-  --bg-secondary: #262626;
-  --text-color: #F4F4F4;
-  --main-color: #BFA181;
-  --highlight-color: #D4C5B0;
+  --bg-color: #FFFFFF;
+  --bg-secondary: #F4F7F6;
+  --text-color: #1A2B3C;
+  --main-color: #87CEEB;
+  --highlight-color: #87CEEB;
 }
 
 /* Language switcher UI */
@@ -272,14 +272,14 @@ h1 span {
 }
 
 .Home-content h1 {
-  font-size: 8rem;
+  font-size: 9rem;
   margin-top: 1.5rem;
   font-weight: 700;
   line-height: 1;
 }
 
 .Home-content p {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 750;
   line-height: 1.4;
   max-width: 1000px;
@@ -825,7 +825,7 @@ h1 span {
   }
 
   .Home-content h1 {
-    font-size: 6.5rem;
+    font-size: 7rem;
   }
 
   .Home-content h3 {
@@ -833,7 +833,7 @@ h1 span {
   }
 
   .Home-content p {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .social-icons {
@@ -898,7 +898,11 @@ h1 span {
   }
 
   .Home-content h1 {
-    font-size: 5.5rem;
+    font-size: 6rem;
+  }
+
+  .Home-content p {
+    font-size: 1.8rem;
   }
 
   .timeline-item:nth-child(odd),
@@ -1156,7 +1160,11 @@ h1 span {
   }
 
   .Home-content h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
+  }
+
+  .Home-content p {
+    font-size: 1.2rem;
   }
 
   .btn {
